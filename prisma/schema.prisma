@@ -1,0 +1,43 @@
+datasource db {
+  provider = "postgresql"
+  url = "postgres://postgres:postgres@localhost:5432/minitwit"
+}
+
+generator client {
+  provider = "prisma-client-python"
+}
+
+model User {
+  user_id   Int      @id @default(autoincrement())
+  username String
+  email    String
+  pw_hash  String
+
+  messages  Message[] @relation("user_messages", fields: [user_id], references: [message_id])
+  followers Follower[] @relation("who_followers", fields: [user_id], references: [user_id])
+  following Follower[] @relation("whom_followers", fields: [user_id], references: [user_id])
+}
+
+model Follower {
+  who_id   Int
+  whom_id  Int
+  User    User @relation("who_followers", fields: [who_id], references: [user_id])
+  User    User @relation("whom_followers", fields: [whom_id], references: [user_id])
+
+  @@id([who_id, whom_id])
+}
+
+model Message {
+  message_id Int     @id @default(autoincrement())
+  author_id  Int
+  text      String
+  pub_date  Int
+  flagged   Int
+
+  author User @relation("user_messages", fields: [author_id], references: [user_id])
+}
+
+model Latest {
+  id       Int @id @default(autoincrement())
+  latest_id Int
+}

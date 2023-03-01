@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "orm-benchmarks"
+version = "0.1.0"
+description = ""
+authors = ["Anders Latif <andl@kea.dk>"]
+readme = "README.md"
+packages = [{include = "orm_benchmarks"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+sqlalchemy = "^2.0.4"
+psycopg2-binary = "^2.9.5"
+prisma = "^0.8.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
